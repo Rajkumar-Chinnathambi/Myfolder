@@ -1,0 +1,58 @@
+mysql> create table city(id int primary key,name varchar(17),countrycode varchar(3),district varchar(20),population int);
+Query OK, 0 rows affected (6.89 sec)
+
+mysql> insert into city values(1,'aichi','jpn','nagoya',20000),(2,'chiba','jpn','chiba',15000),(3,'bartow','usa','florida',25000),(4,'kuppur','usa','florida',40000),
+    -> (5,'natrampalayam','ind','krishnagiri',30000),(6,'anchetty','ind','krishnagiri',50000);
+Query OK, 6 rows affected (0.65 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select name,district,population from city ;
++---------------+-------------+------------+
+| name          | district    | population |
++---------------+-------------+------------+
+| aichi         | nagoya      |      20000 |
+| chiba         | chiba       |      15000 |
+| bartow        | florida     |      25000 |
+| kuppur        | florida     |      40000 |
+| natrampalayam | krishnagiri |      30000 |
+| anchetty      | krishnagiri |      50000 |
++---------------+-------------+------------+
+6 rows in set (0.04 sec)
+
+mysql> select name,district,population from city where countrycode='usa' and population>10000;
++--------+----------+------------+
+| name   | district | population |
++--------+----------+------------+
+| bartow | florida  |      25000 |
+| kuppur | florida  |      40000 |
++--------+----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select name,district,population from city where id=1;
++-------+----------+------------+
+| name  | district | population |
++-------+----------+------------+
+| aichi | nagoya   |      20000 |
++-------+----------+------------+
+1 row in set (0.03 sec)
+
+mysql> select name,district,population from city where countrycode='jpn';
++-------+----------+------------+
+| name  | district | population |
++-------+----------+------------+
+| aichi | nagoya   |      20000 |
+| chiba | chiba    |      15000 |
++-------+----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select name,district,population from city where district='florida' and city='bartow';
+ERROR 1054 (42S22): Unknown column 'city' in 'where clause'
+mysql> select name,district,population from city where district='florida' and name='bartow';
++--------+----------+------------+
+| name   | district | population |
++--------+----------+------------+
+| bartow | florida  |      25000 |
++--------+----------+------------+
+1 row in set (0.00 sec)
+
+mysql> notee

@@ -1,0 +1,524 @@
+
+test> use rajkumar
+switched to db rajkumar
+rajkumar> db.createCollection('product')
+{ ok: 1 }
+rajkumar> db.product.insertMany([{_id:1,pname:'Apple 11 pro',price:80000,quantity:20,company:{name:'Apple',purchase_date:Date('2022-10-11')}
+... },{_id:2,pname:'Apple 11',price:70000,quantity:10,company:{name:'Apple',purchase_date:Date('2022-10-11')}}])
+{ acknowledged: true, insertedIds: { '0': 1, '1': 2 } }
+rajkumar> db.product.insertMany([{ _id: 3, pname: 'Apple 11 pro', price: 80000, quantity: 20, company: { name: 'Apple', purchase_date: Date('2023-01-11') } }, { _id: 4, pname: 'Apple 11', price: 70000, quantity: 10, company: { name: 'Apple', purchase_date: Date('2023-1-11') } }])
+{ acknowledged: true, insertedIds: { '0': 3, '1': 4 } }
+rajkumar> db.product.insertMany([{ _id: 5, pname: 'mi 10', price: 40000, quantity: 20, company: { name: 'mi', purchase_date: Date('2023-01-18') } }, { _id: 6, pname: 'mi 10 prime', price: 50000, quantity: 10, company: { name: 'mi', purchase_date: Date('2023-1-18') } }])
+{ acknowledged: true, insertedIds: { '0': 5, '1': 6 } }
+rajkumar> db.product.insertMany([{ _id: 7, pname: 'mi 11', price: 41000, quantity: 40, company: { name: 'mi', purchase_date: Date('2023-01-20') } }, { _id: 8, pname: 'mi 10 prime', price: 50000, quantity: 10, company: { name: 'mi', purchase_date: Date('2023-2-18') } }])
+{ acknowledged: true, insertedIds: { '0': 7, '1': 8 } }
+rajkumar> db.product.insertMany([{ _id: 9, pname: 'mi 11', price: 41000, quantity: 40, company: { name: 'mi', purchase_date: Date('2023-02-20') } }, { _id: 10, pname: 'realme 5i', price: 30000, quantity: 15, company: { name: 'realme', purchase_date: Date('2023-2-20') } }])
+{ acknowledged: true, insertedIds: { '0': 9, '1': 10 } }
+rajkumar> db.product.insertMany([{ _id: 11, pname: 'mi 12pro', price: 45000, quantity: 30, company: { name: 'mi', purchase_date: Date('2023-03-20') } }, { _id: 12, pname: 'realme 5i', price: 30000, quantity: 15, company: { name: 'realme', purchase_date: Date('2023-3-20') } }])
+{ acknowledged: true, insertedIds: { '0': 11, '1': 12 } }
+rajkumar> db.product.aggregate([{$match:{'company.name':'mi'}}])
+[
+  {
+    _id: 5,
+    pname: 'mi 10',
+    price: 40000,
+    quantity: 20,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:02:38 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 6,
+    pname: 'mi 10 prime',
+    price: 50000,
+    quantity: 10,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:02:38 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 7,
+    pname: 'mi 11',
+    price: 41000,
+    quantity: 40,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:03:36 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 8,
+    pname: 'mi 10 prime',
+    price: 50000,
+    quantity: 10,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:03:36 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 9,
+    pname: 'mi 11',
+    price: 41000,
+    quantity: 40,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:05:01 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 11,
+    pname: 'mi 12pro',
+    price: 45000,
+    quantity: 30,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:06:17 GMT+0530 (India Standard Time)'
+    }
+  }
+]
+rajkumar> db.product.aggregate([{},{$group:{_id:'$company.name'}}])
+MongoServerError: A pipeline stage specification object must contain exactly one field.
+rajkumar> db.product.aggregate([{$group:{_id:'$company.name'}}])
+[ { _id: 'mi' }, { _id: 'realme' }, { _id: 'Apple' } ]
+rajkumar> db.product.aggregate([{$group:{_id:'$company.name'},name:1}])
+MongoServerError: A pipeline stage specification object must contain exactly one field.
+rajkumar> db.product.aggregate([{$group:{_id:'$company.name'},name:'$name'}])
+MongoServerError: A pipeline stage specification object must contain exactly one field.
+rajkumar> db.product.aggregate([{$group:{_id:'$company.name'}}])
+[ { _id: 'mi' }, { _id: 'realme' }, { _id: 'Apple' } ]
+rajkumar> db.product.aggregate([{$match:{'company.name':'mi'}}{$group:{_id:'$pname'}}])
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:52)
+
+> 1 | db.product.aggregate([{$match:{'company.name':'mi'}}{$group:{_id:'$pname'}}])
+    |                                                     ^
+  2 |
+
+rajkumar> db.product.aggregate([{$match:{'company.name':'mi'}},{$group:{_id:'$pname'}}])
+[
+  { _id: 'mi 10' },
+  { _id: 'mi 11' },
+  { _id: 'mi 10 prime' },
+  { _id: 'mi 12pro' }
+]
+rajkumar> db.product.aggregate([{$match:{'company.name':'mi'}},{$group:{_id:'$pname'}},{$project:{name:1}])
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:95)
+
+> 1 | db.product.aggregate([{$match:{'company.name':'mi'}},{$group:{_id:'$pname'}},{$project:{name:1}])
+    |                                                                                                ^
+  2 |
+
+rajkumar> db.product.aggregate([{$match:{'company.name':'mi'}},{$group:{_id:'$pname'}},{$project:{name:1}}])
+[
+  { _id: 'mi 10' },
+  { _id: 'mi 11' },
+  { _id: 'mi 10 prime' },
+  { _id: 'mi 12pro' }
+]
+rajkumar> db.product.aggregate([{$match:{'company.name':'mi'}},{$group:{_id:'$pname'}},{$project:{price:1,quantity:1}}])
+[
+  { _id: 'mi 11' },
+  { _id: 'mi 12pro' },
+  { _id: 'mi 10' },
+  { _id: 'mi 10 prime' }
+]
+rajkumar> db.product.aggregate([{$match:{'company.name':'mi'}},{$group:{_id:'$pname',$project:{price:1,quantity:1}}}])
+MongoServerError: The field '$project' must be an accumulator object
+rajkumar> db.product.aggregate([{$match:{'company.name':'mi'}},{$group:{_id:'$pname',price:'$price',quantity:'$quantity'}}])
+MongoServerError: The field 'price' must be an accumulator object
+rajkumar> db.product.aggregate([{$match:{'company.name':'mi'}},{$group:{_id:{pname:'$pname',price:'$price',quantity:'$quantity'}}}])
+[
+  { _id: { pname: 'mi 11', price: 41000, quantity: 40 } },
+  { _id: { pname: 'mi 10 prime', price: 50000, quantity: 10 } },
+  { _id: { pname: 'mi 10', price: 40000, quantity: 20 } },
+  { _id: { pname: 'mi 12pro', price: 45000, quantity: 30 } }
+]
+rajkumar> db.product.aggregate([{$group:{_id:{pname:'$company.name',pname:'$pname',price:'$price',quantity:'$quantity'}}}])
+[
+  { _id: { pname: 'Apple 11', price: 70000, quantity: 10 } },
+  { _id: { pname: 'Apple 11 pro', price: 80000, quantity: 20 } },
+  { _id: { pname: 'realme 5i', price: 30000, quantity: 15 } },
+  { _id: { pname: 'mi 12pro', price: 45000, quantity: 30 } },
+  { _id: { pname: 'mi 10', price: 40000, quantity: 20 } },
+  { _id: { pname: 'mi 10 prime', price: 50000, quantity: 10 } },
+  { _id: { pname: 'mi 11', price: 41000, quantity: 40 } }
+]
+rajkumar> db.product.aggregate([{$group:{_id:{'company.name':'$company.name',pname:'$pname',price:'$price',quantity:'$quantity'}}}])
+MongoServerError: FieldPath field names may not contain '.'. Consider using $getField or $setField.
+rajkumar> db.product.aggregate([{$group:{_id:{company:'$company.name',pname:'$pname',price:'$price',quantity:'$quantity'}}}])
+[
+  {
+    _id: {
+      company: 'Apple',
+      pname: 'Apple 11 pro',
+      price: 80000,
+      quantity: 20
+    }
+  },
+  {
+    _id: { company: 'mi', pname: 'mi 10 prime', price: 50000, quantity: 10 }
+  },
+  {
+    _id: { company: 'Apple', pname: 'Apple 11', price: 70000, quantity: 10 }
+  },
+  {
+    _id: { company: 'mi', pname: 'mi 11', price: 41000, quantity: 40 }
+  },
+  {
+    _id: { company: 'mi', pname: 'mi 12pro', price: 45000, quantity: 30 }
+  },
+  {
+    _id: { company: 'mi', pname: 'mi 10', price: 40000, quantity: 20 }
+  },
+  {
+    _id: {
+      company: 'realme',
+      pname: 'realme 5i',
+      price: 30000,
+      quantity: 15
+    }
+  }
+]
+rajkumar> db.product.aggregate([{$group:{_id:{company:'$company.name',pname:'$pname',price:'$price',quantity:{$sum:'$quantity'}}}}])
+[
+  {
+    _id: { company: 'Apple', pname: 'Apple 11', price: 70000, quantity: 10 }
+  },
+  {
+    _id: {
+      company: 'realme',
+      pname: 'realme 5i',
+      price: 30000,
+      quantity: 15
+    }
+  },
+  {
+    _id: { company: 'mi', pname: 'mi 12pro', price: 45000, quantity: 30 }
+  },
+  {
+    _id: { company: 'mi', pname: 'mi 11', price: 41000, quantity: 40 }
+  },
+  {
+    _id: { company: 'mi', pname: 'mi 10 prime', price: 50000, quantity: 10 }
+  },
+  {
+    _id: {
+      company: 'Apple',
+      pname: 'Apple 11 pro',
+      price: 80000,
+      quantity: 20
+    }
+  },
+  {
+    _id: { company: 'mi', pname: 'mi 10', price: 40000, quantity: 20 }
+  }
+]
+rajkumar> db.product.aggregate([{$group:{_id:{Product_name:'$pname',price:'$price',Total_Quantity:{$sum:'$quantity'}}}}])
+[
+  { _id: { Product_name: 'mi 10', price: 40000, Total_Quantity: 20 } },
+  {
+    _id: { Product_name: 'Apple 11 pro', price: 80000, Total_Quantity: 20 }
+  },
+  {
+    _id: { Product_name: 'mi 12pro', price: 45000, Total_Quantity: 30 }
+  },
+  { _id: { Product_name: 'mi 11', price: 41000, Total_Quantity: 40 } },
+  {
+    _id: { Product_name: 'Apple 11', price: 70000, Total_Quantity: 10 }
+  },
+  {
+    _id: { Product_name: 'mi 10 prime', price: 50000, Total_Quantity: 10 }
+  },
+  {
+    _id: { Product_name: 'realme 5i', price: 30000, Total_Quantity: 15 }
+  }
+]
+rajkumar> db.product.aggregate([{$project:{_id:0,pname:1,quantity:1}}])
+[
+  { pname: 'Apple 11 pro', quantity: 20 },
+  { pname: 'Apple 11', quantity: 10 },
+  { pname: 'Apple 11 pro', quantity: 20 },
+  { pname: 'Apple 11', quantity: 10 },
+  { pname: 'mi 10', quantity: 20 },
+  { pname: 'mi 10 prime', quantity: 10 },
+  { pname: 'mi 11', quantity: 40 },
+  { pname: 'mi 10 prime', quantity: 10 },
+  { pname: 'mi 11', quantity: 40 },
+  { pname: 'realme 5i', quantity: 15 },
+  { pname: 'mi 12pro', quantity: 30 },
+  { pname: 'realme 5i', quantity: 15 }
+]
+rajkumar> db.product.aggregate([{$group:{_id:'$pname','total_quantity':'$quantity'}}])
+MongoServerError: The field 'total_quantity' must be an accumulator object
+rajkumar> db.product.aggregate([{$group:{_id:'$pname',total_quantity:'$quantity'}}])
+MongoServerError: The field 'total_quantity' must be an accumulator object
+rajkumar> db.product.aggregate([{$group:{_id:'$pname','total_quantity':{$sum:'$quantity'}}}])
+[
+  { _id: 'Apple 11', total_quantity: 20 },
+  { _id: 'Apple 11 pro', total_quantity: 40 },
+  { _id: 'mi 11', total_quantity: 80 },
+  { _id: 'realme 5i', total_quantity: 30 },
+  { _id: 'mi 12pro', total_quantity: 30 },
+  { _id: 'mi 10', total_quantity: 20 },
+  { _id: 'mi 10 prime', total_quantity: 20 }
+]
+rajkumar> db.product.aggregate([{$group:{_id:'$pname','total price':{$sum:'$price'},'average':{$avg:'$price'}}}])
+[
+  { _id: 'mi 10 prime', 'total price': 100000, average: 50000 },
+  { _id: 'Apple 11 pro', 'total price': 160000, average: 80000 },
+  { _id: 'mi 11', 'total price': 82000, average: 41000 },
+  { _id: 'realme 5i', 'total price': 60000, average: 30000 },
+  { _id: 'mi 10', 'total price': 40000, average: 40000 },
+  { _id: 'mi 12pro', 'total price': 45000, average: 45000 },
+  { _id: 'Apple 11', 'total price': 140000, average: 70000 }
+]
+rajkumar> db.product.aggregate([{$group:{_id:'$pname','total_price':{$sum:'$price'},'average':{$avg:'$price'}}}])
+[
+  { _id: 'mi 10 prime', total_price: 100000, average: 50000 },
+  { _id: 'Apple 11 pro', total_price: 160000, average: 80000 },
+  { _id: 'mi 11', total_price: 82000, average: 41000 },
+  { _id: 'realme 5i', total_price: 60000, average: 30000 },
+  { _id: 'mi 10', total_price: 40000, average: 40000 },
+  { _id: 'mi 12pro', total_price: 45000, average: 45000 },
+  { _id: 'Apple 11', total_price: 140000, average: 70000 }
+]
+rajkumar> db.product.aggregate([{$project:{_id:0,'company.name':1,pname:1,price:1,quantity:1},$sort:{'company.name':1}}])
+MongoServerError: A pipeline stage specification object must contain exactly one field.
+rajkumar> db.product.aggregate([{$project:{_id:0,'company.name':1,pname:1,price:1,quantity:1,$sort:{'company.name':1}])
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:107)
+
+> 1 | db.product.aggregate([{$project:{_id:0,'company.name':1,pname:1,price:1,quantity:1,$sort:{'company.name':1}])
+    |                                                                                                            ^
+  2 |
+
+rajkumar> db.product.aggregate([{$project:{_id:0,'company.name':1,pname:1,price:1,quantity:1,$sort:{'company.name':1}}}])
+MongoServerError: Invalid $project :: caused by :: FieldPath field names may not start with '$'. Consider using $getField or $setField.
+rajkumar> db.product.aggregate([{$sort:{'company.name':1}])
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:47)
+
+> 1 | db.product.aggregate([{$sort:{'company.name':1}])
+    |                                                ^
+  2 |
+
+rajkumar> db.product.aggregate([{$sort:{'company.name':1}}])
+[
+  {
+    _id: 1,
+    pname: 'Apple 11 pro',
+    price: 80000,
+    quantity: 20,
+    company: {
+      name: 'Apple',
+      purchase_date: 'Sun Dec 10 2023 14:59:56 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 2,
+    pname: 'Apple 11',
+    price: 70000,
+    quantity: 10,
+    company: {
+      name: 'Apple',
+      purchase_date: 'Sun Dec 10 2023 14:59:56 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 3,
+    pname: 'Apple 11 pro',
+    price: 80000,
+    quantity: 20,
+    company: {
+      name: 'Apple',
+      purchase_date: 'Sun Dec 10 2023 15:01:11 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 4,
+    pname: 'Apple 11',
+    price: 70000,
+    quantity: 10,
+    company: {
+      name: 'Apple',
+      purchase_date: 'Sun Dec 10 2023 15:01:11 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 5,
+    pname: 'mi 10',
+    price: 40000,
+    quantity: 20,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:02:38 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 6,
+    pname: 'mi 10 prime',
+    price: 50000,
+    quantity: 10,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:02:38 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 7,
+    pname: 'mi 11',
+    price: 41000,
+    quantity: 40,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:03:36 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 8,
+    pname: 'mi 10 prime',
+    price: 50000,
+    quantity: 10,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:03:36 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 9,
+    pname: 'mi 11',
+    price: 41000,
+    quantity: 40,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:05:01 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 11,
+    pname: 'mi 12pro',
+    price: 45000,
+    quantity: 30,
+    company: {
+      name: 'mi',
+      purchase_date: 'Sun Dec 10 2023 15:06:17 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 10,
+    pname: 'realme 5i',
+    price: 30000,
+    quantity: 15,
+    company: {
+      name: 'realme',
+      purchase_date: 'Sun Dec 10 2023 15:05:01 GMT+0530 (India Standard Time)'
+    }
+  },
+  {
+    _id: 12,
+    pname: 'realme 5i',
+    price: 30000,
+    quantity: 15,
+    company: {
+      name: 'realme',
+      purchase_date: 'Sun Dec 10 2023 15:06:17 GMT+0530 (India Standard Time)'
+    }
+  }
+]
+rajkumar> db.product.aggregate([{$project:{pname:1},$sort:{'company.name':1}}])
+MongoServerError: A pipeline stage specification object must contain exactly one field.
+rajkumar> db.product.aggregate([{$project:{pname:1}},{$sort:{'company.name':1}}])
+[
+  { _id: 1, pname: 'Apple 11 pro' },
+  { _id: 2, pname: 'Apple 11' },
+  { _id: 3, pname: 'Apple 11 pro' },
+  { _id: 4, pname: 'Apple 11' },
+  { _id: 5, pname: 'mi 10' },
+  { _id: 6, pname: 'mi 10 prime' },
+  { _id: 7, pname: 'mi 11' },
+  { _id: 8, pname: 'mi 10 prime' },
+  { _id: 9, pname: 'mi 11' },
+  { _id: 10, pname: 'realme 5i' },
+  { _id: 11, pname: 'mi 12pro' },
+  { _id: 12, pname: 'realme 5i' }
+]
+rajkumar> db.product.aggregate([{$project:{_id:0,'company.name':1,pname:1,price:1,quantity:1}},{$sort:{'company.name':1}}])
+[
+  {
+    pname: 'Apple 11 pro',
+    price: 80000,
+    quantity: 20,
+    company: { name: 'Apple' }
+  },
+  {
+    pname: 'Apple 11',
+    price: 70000,
+    quantity: 10,
+    company: { name: 'Apple' }
+  },
+  {
+    pname: 'Apple 11 pro',
+    price: 80000,
+    quantity: 20,
+    company: { name: 'Apple' }
+  },
+  {
+    pname: 'Apple 11',
+    price: 70000,
+    quantity: 10,
+    company: { name: 'Apple' }
+  },
+  {
+    pname: 'mi 10',
+    price: 40000,
+    quantity: 20,
+    company: { name: 'mi' }
+  },
+  {
+    pname: 'mi 10 prime',
+    price: 50000,
+    quantity: 10,
+    company: { name: 'mi' }
+  },
+  {
+    pname: 'mi 11',
+    price: 41000,
+    quantity: 40,
+    company: { name: 'mi' }
+  },
+  {
+    pname: 'mi 10 prime',
+    price: 50000,
+    quantity: 10,
+    company: { name: 'mi' }
+  },
+  {
+    pname: 'mi 11',
+    price: 41000,
+    quantity: 40,
+    company: { name: 'mi' }
+  },
+  {
+    pname: 'mi 12pro',
+    price: 45000,
+    quantity: 30,
+    company: { name: 'mi' }
+  },
+  {
+    pname: 'realme 5i',
+    price: 30000,
+    quantity: 15,
+    company: { name: 'realme' }
+  },
+  {
+    pname: 'realme 5i',
+    price: 30000,
+    quantity: 15,
+    company: { name: 'realme' }
+  }
+]
+rajkumar>

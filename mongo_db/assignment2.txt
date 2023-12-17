@@ -1,0 +1,292 @@
+
+rajkumar> db.Student.insertMany([{_id:1,name:'rajkumar',age:20,course:[{html:60,css:50,java:55,mongodb:40}]}])
+{ acknowledged: true, insertedIds: { '0': 1 } }
+rajkumar> db.Student.find()
+\[},
+  {
+    _id: 1,jectId("657463b3aec33861451a9002"),
+    name: 'rajkumar',
+    age: 20,
+    course: [ { html: 60, css: 50, java: 55, mongodb: 40 } ]
+  },
+] {
+rajkumar> db.Student.find({},{'course.html':1})
+[   name: 'kayal',
+  { _id: 1, course: [ { html: 60 } ] }
+]   score: 8.9
+rajkumar> db.Student.insertMany([{_id:2,name:'kumar',age:22,course:[{html:35,css:50,java:55,mongodb:40,total:180}]},{_id:3,name:'ramu',age:24,course:[{html:40,css:60,java:50,mongodb:70,total:210}]}])
+{ acknowledged: true, insertedIds: { '0': 2, '1': 3 } }
+rajkumar> db.Student.insertMany([{_id:4,name:'tharun',age:18,course:[{html:30,css:30,java:55,mongodb:40,total:150}]},{_id:5,name:'ragul',age:24,course:[{html:40,css:60,java:50,mongodb:20,total:190}]}])
+{ acknowledged: true, insertedIds: { '0': 4, '1': 5 } }
+rajkumar> db.Student.find({total:{$lt:200}},{_id:0,name:1})
+    age: 17,
+rajkumar> db.Student.find({total:{$lt:200}},{_id:0})
+  },
+rajkumar> db.Student.find()
+[   _id: ObjectId("657463b3aec33861451a9000"),
+  { name: 'sri',
+    _id: 1,,
+    name: 'rajkumar',
+    age: 20,
+    course: [ { html: 60, css: 50, java: 55, mongodb: 40 } ]
+  },_id: ObjectId("657463b3aec33861451a9001"),
+  { name: 'jagan',
+    _id: 2,,
+    name: 'kumar',
+    age: 22,
+    course: [ { html: 35, css: 50, java: 55, mongodb: 40, total: 180 } ]
+  },_id: ObjectId("657463b3aec33861451a9003"),
+  { name: 'kayal',
+    _id: 3,,
+    name: 'ramu',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 70, total: 210 } ]
+  },umar> 5
+  {
+    _id: 4,
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  },
+  {
+    _id: 5,
+    name: 'ragul',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 20, total: 190 } ]
+  }
+]
+rajkumar> db.Student.find({'course.total':{$lt:200}},{_id:0})
+[
+  {
+    name: 'kumar',
+    age: 22,
+    course: [ { html: 35, css: 50, java: 55, mongodb: 40, total: 180 } ]
+  },
+  {
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  },
+  {
+    name: 'ragul',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 20, total: 190 } ]
+  }
+]
+rajkumar> db.Student.find({'course.*':{$lt:40}},{_id:0})
+
+rajkumar> db.Student.find({'course.*':40},{_id:0})
+
+rajkumar> db.Student.find({'course.html':{$lt:40}},{_id:0})
+[
+  {
+    name: 'kumar',
+    age: 22,
+    course: [ { html: 35, css: 50, java: 55, mongodb: 40, total: 180 } ]
+  },
+  {
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  }
+]
+rajkumar> db.Student.find({course:{html:{$lt:40}},{mongodb:{$lt:40}}},{_id:0})
+Uncaught:
+SyntaxError: Unexpected token (1:40)
+
+> 1 | db.Student.find({course:{html:{$lt:40}},{mongodb:{$lt:40}}},{_id:0})
+    |                                         ^
+  2 |
+
+rajkumar> db.Student.find({course:{html:{$lt:40},mongodb:{$lt:40}},{_id:0})
+Uncaught:
+SyntaxError: Unexpected token (1:57)
+
+> 1 | db.Student.find({course:{html:{$lt:40},mongodb:{$lt:40}},{_id:0})
+    |                                                          ^
+  2 |
+
+rajkumar> db.Student.find({course:{html:{$lt:40},mongodb:{$lt:40}}},{_id:0})
+
+rajkumar> db.Student.find({course:{html:{$lt:40},mongodb:{$lt:60}}},{_id:0})
+
+rajkumar> db.Student.find({course:{html:{$lt:90},mongodb:{$lt:900}}},{_id:0})
+
+rajkumar> db.Student.find({'course.html':{$lt:50},'course.mongodb':{$lt:50}},{_id:0})
+[
+  {
+    name: 'kumar',
+    age: 22,
+    course: [ { html: 35, css: 50, java: 55, mongodb: 40, total: 180 } ]
+  },
+  {
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  },
+  {
+    name: 'ragul',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 20, total: 190 } ]
+  }
+]
+rajkumar> db.Student.find({age:{$lt:21}},{_id:0})
+[
+  {
+    name: 'rajkumar',
+    age: 20,
+    course: [ { html: 60, css: 50, java: 55, mongodb: 40 } ]
+  },
+  {
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  }
+]
+rajkumar> db.Student.find({},{_id:0}).limit(2)
+[
+  {
+    name: 'rajkumar',
+    age: 20,
+    course: [ { html: 60, css: 50, java: 55, mongodb: 40 } ]
+  },
+  {
+    name: 'kumar',
+    age: 22,
+    course: [ { html: 35, css: 50, java: 55, mongodb: 40, total: 180 } ]
+  }
+]
+rajkumar> db.Student.find({},{_id:0}).skip(2)
+[
+  {
+    name: 'ramu',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 70, total: 210 } ]
+  },
+  {
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  },
+  {
+    name: 'ragul',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 20, total: 190 } ]
+  }
+]
+rajkumar> db.Student.find({},{_id:0}).sort({name:1})
+[
+  {
+    name: 'kumar',
+    age: 22,
+    course: [ { html: 35, css: 50, java: 55, mongodb: 40, total: 180 } ]
+  },
+  {
+    name: 'ragul',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 20, total: 190 } ]
+  },
+  {
+    name: 'rajkumar',
+    age: 20,
+    course: [ { html: 60, css: 50, java: 55, mongodb: 40 } ]
+  },
+  {
+    name: 'ramu',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 70, total: 210 } ]
+  },
+  {
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  }
+]
+rajkumar> db.Student.find().sort({name:-1})
+[
+  {
+    _id: 4,
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  },
+  {
+    _id: 3,
+    name: 'ramu',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 70, total: 210 } ]
+  },
+  {
+    _id: 1,
+    name: 'rajkumar',
+    age: 20,
+    course: [ { html: 60, css: 50, java: 55, mongodb: 40 } ]
+  },
+  {
+    _id: 5,
+    name: 'ragul',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 20, total: 190 } ]
+  },
+  {
+    _id: 2,
+    name: 'kumar',
+    age: 22,
+    course: [ { html: 35, css: 50, java: 55, mongodb: 40, total: 180 } ]
+  }
+]
+rajkumar> db.Student.find().sort({age:-1})
+[
+  {
+    _id: 3,
+    name: 'ramu',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 70, total: 210 } ]
+  },
+  {
+    _id: 5,
+    name: 'ragul',
+    age: 24,
+    course: [ { html: 40, css: 60, java: 50, mongodb: 20, total: 190 } ]
+  },
+  {
+    _id: 2,
+    name: 'kumar',
+    age: 22,
+    course: [ { html: 35, css: 50, java: 55, mongodb: 40, total: 180 } ]
+  },
+  {
+    _id: 1,
+    name: 'rajkumar',
+    age: 20,
+    course: [ { html: 60, css: 50, java: 55, mongodb: 40 } ]
+  },
+  {
+    _id: 4,
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  }
+]
+rajkumar> db.Student.find().sort({age:-1}).skip(2)
+[
+  {
+    _id: 2,
+    name: 'kumar',
+    age: 22,
+    course: [ { html: 35, css: 50, java: 55, mongodb: 40, total: 180 } ]
+  },
+  {
+    _id: 1,
+    name: 'rajkumar',
+    age: 20,
+    course: [ { html: 60, css: 50, java: 55, mongodb: 40 } ]
+  },
+  {
+    _id: 4,
+    name: 'tharun',
+    age: 18,
+    course: [ { html: 30, css: 30, java: 55, mongodb: 40, total: 150 } ]
+  }
+]
+rajkumar>

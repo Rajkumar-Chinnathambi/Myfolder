@@ -1,0 +1,122 @@
+mysql> use rajkumar;
+Database changed
+mysql> create table passenger_info(profile_id varchar(10) primary key,
+    -> password varchar(10) not null,
+    -> firstname varchar(10) not null,
+    -> lastname varchar(10) not null,
+    -> address varchar(100) not null,
+    -> mobile bigint(10) not null,
+    -> email varchar(30));
+Query OK, 0 rows affected, 1 warning (1.81 sec)
+
+mysql> create table air_flight(
+    -> flight_id varchar(10) primary key,
+    -> airline_id varchar(10) not null,
+    -> airline_name varchar(20) not null,
+    -> from_location varchar(20) not null,
+    -> to_location varchar(20) not null,
+    -> departure_time time not null,
+    -> arrival_time time not null, 
+    -> duration time,
+    -> total_seats int(11) not null);
+Query OK, 0 rows affected, 1 warning (0.74 sec)
+
+
+mysql> create table air_flight_details(
+    -> flight_id varchar(10),
+    -> flight_departure_date date,
+    -> price decimal(8,2) not null,
+    -> available_seats int(11) not null );
+Query OK, 0 rows affected, 1 warning (0.62 sec)
+
+mysql> alter table air_flight_details add constraint foreign key(flight_id) references air_flight(flight_id) on delete cascade;
+Query OK, 0 rows affected (2.31 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table air_credit_card_details(
+    -> profile_id varchar(20),
+    -> card_number bigint(16) not null,
+    -> card_type varchar(10) not null,
+    -> expiration_month int(2) not null,
+    -> expiration_year int(4) not null,
+    -> foreign key(profile_id) references passenger_info(
+    -> profile_id) on delete cascade);
+Query OK, 0 rows affected, 3 warnings (0.67 sec)
+
+
+mysql> create table air_ticket_info(
+    -> ticket_id int primary key,
+    -> profile_id varchar(20) not null,
+    -> flight_id varchar(10) not null,
+    -> flight_departure_date date not null,
+    -> status varchar(10) not null,
+    -> foreign key(profile_id) references passenger_info(profile_id) on delete cascade,
+    -> foreign key(flight_id) references air_flight(flight_id) on delete cascade);
+Query OK, 0 rows affected (0.85 sec)
+
+mysql> desc passenger_info;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| profile_id | varchar(10)  | NO   | PRI | NULL    |       |
+| password   | varchar(10)  | NO   |     | NULL    |       |
+| firstname  | varchar(10)  | NO   |     | NULL    |       |
+| lastname   | varchar(10)  | NO   |     | NULL    |       |
+| address    | varchar(100) | NO   |     | NULL    |       |
+| mobile     | bigint       | NO   |     | NULL    |       |
+| email      | varchar(30)  | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+7 rows in set (0.23 sec)
+
+mysql> desc air_flight_details;
++-----------------------+--------------+------+-----+---------+-------+
+| Field                 | Type         | Null | Key | Default | Extra |
++-----------------------+--------------+------+-----+---------+-------+
+| flight_id             | varchar(10)  | YES  | MUL | NULL    |       |
+| flight_departure_date | date         | YES  |     | NULL    |       |
+| price                 | decimal(8,2) | NO   |     | NULL    |       |
+| available_seats       | int          | NO   |     | NULL    |       |
++-----------------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc air_flight;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| flight_id      | varchar(10) | NO   | PRI | NULL    |       |
+| airline_id     | varchar(10) | NO   |     | NULL    |       |
+| airline_name   | varchar(20) | NO   |     | NULL    |       |
+| from_location  | varchar(20) | NO   |     | NULL    |       |
+| to_location    | varchar(20) | NO   |     | NULL    |       |
+| departure_time | time        | NO   |     | NULL    |       |
+| arrival_time   | time        | NO   |     | NULL    |       |
+| duration       | time        | YES  |     | NULL    |       |
+| total_seats    | int         | NO   |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> desc air_credit_card_details;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| profile_id       | varchar(20) | YES  | MUL | NULL    |       |
+| card_number      | bigint      | NO   |     | NULL    |       |
+| card_type        | varchar(10) | NO   |     | NULL    |       |
+| expiration_month | int         | NO   |     | NULL    |       |
+| expiration_year  | int         | NO   |     | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc air_ticket_info;
++-----------------------+-------------+------+-----+---------+-------+
+| Field                 | Type        | Null | Key | Default | Extra |
++-----------------------+-------------+------+-----+---------+-------+
+| ticket_id             | int         | NO   | PRI | NULL    |       |
+| profile_id            | varchar(20) | NO   | MUL | NULL    |       |
+| flight_id             | varchar(10) | NO   | MUL | NULL    |       |
+| flight_departure_date | date        | NO   |     | NULL    |       |
+| status                | varchar(10) | NO   |     | NULL    |       |
++-----------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> notee

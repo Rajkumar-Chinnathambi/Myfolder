@@ -1,0 +1,217 @@
+Please enter a MongoDB connection string (Default: mongodb://localhost/):
+
+Current Mongosh Log ID: 657461fbaec33861451a8ffe
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          7.0.3
+Using Mongosh:          2.0.2
+mongosh 2.1.0 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-12-04T09:46:27.025+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin    40.00 KiB
+config   84.00 KiB
+local    72.00 KiB
+mustore  40.00 KiB
+mystore  40.00 KiB
+test     16.00 KiB
+test> use rajkumar
+switched to db rajkumar
+rajkumar> db.createCollection('Student')
+{ ok: 1 }
+rajkumar> db.Student.insertMany([{'raj',17,9.2},{'sri',17,9.3},{'jagan',17,8.8},{'javitha',17,8},{'kayal',17,8.9}])
+Uncaught:
+SyntaxError: Unexpected token (1:29)
+
+> 1 | db.Student.insertMany([{'raj',17,9.2},{'sri',17,9.3},{'jagan',17,8.8},{'javitha',17,8},{'kayal',17,8.9}])
+    |                              ^
+  2 |
+
+rajkumar> db.Student.insertMany([{name:'raj',age:17,score:9.2},{name:'sri',age:17,score:9.3},{name:'jagan',age:17,score:8.8},{name:'javitha',age:17,score:8},{name:'kayal',age:17,score:8.9}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("657463b3aec33861451a8fff"),
+    '1': ObjectId("657463b3aec33861451a9000"),
+    '2': ObjectId("657463b3aec33861451a9001"),
+    '3': ObjectId("657463b3aec33861451a9002"),
+    '4': ObjectId("657463b3aec33861451a9003")
+  }
+}
+rajkumar> db.createCollection('Customer')
+{ ok: 1 }
+rajkumar> db.Customer.insertMany([{_id:1,first_name:'raj',last_name:'kumar',dob:20-05-2000,address:'Krishangir',mobile:9876543209},
+... {_id:2,first_name:'jacki',last_name:'chan',dob:03-05-1980,address:'chaina',mobile:9876543210}])
+{ acknowledged: true, insertedIds: { '0': 1, '1': 2 } }
+rajkumar> db.Customer.insertMany([{ _id: 3, first_name: 'chang', last_name: 'xiao', dob: 20 - 03 - 2000, address: 'Krishangir', mobile: 9876543209 }, { _id: 4, first_name: 'chen', last_name: 'chen', dob: 03 - 06 - 1980, address: 'chaina', mobile: 9876543210 }])
+{ acknowledged: true, insertedIds: { '0': 3, '1': 4 } }
+rajkumar> db.Customer.insertMany([{ _id: 5, first_name: 'chang', last_name: 'ling', dob: 20 - 03 - 2002, address: 'Krishangiri', mobile: 9876543200 }, { _id: 6, first_name: 'chen', last_name: 'leo', dob: 03 - 06 - 1981, address: 'china', mobile: 9876543210 }])
+{ acknowledged: true, insertedIds: { '0': 5, '1': 6 } }
+rajkumar> db.createCollection('order_det')
+{ ok: 1 }
+rajkumar> db.order_det.insertOne({_id:1,cid:1001,order_datetime:Date('2022-02-02'),shipped_datetime:Date('2022-03-20'),total_amount:78.80})
+{ acknowledged: true, insertedId: 1 }
+rajkumar> db.order_det.find()
+[
+  {
+    _id: 1,
+    cid: 1001,
+    order_datetime: 'Sat Dec 09 2023 18:41:01 GMT+0530 (India Standard Time)',
+    shipped_datetime: 'Sat Dec 09 2023 18:41:01 GMT+0530 (India Standard Time)',
+    total_amount: 78.8
+  }
+]
+rajkumar> db.order_det.insertMany([{_id:2,cid:1002,order_datetime:Date('2022-02-22'),shipped_datetime:Date('2022-03-21'),total_amount:578.00},{_id:3,cid:1003,order_datetime:Date('2022-03-18'),shipped_datetime:Date('2022-04-02'),total_amount:200.80},{_id:4,cid:1004,order_datetime:Date('2022-03-02'),shipped_datetime:Date('2022-04-20'),total_amount:178.80}])
+{ acknowledged: true, insertedIds: { '0': 2, '1': 3, '2': 4 } }
+rajkumar> db.order_det.insertOne({_id:5,cid:1005,order_datetime:Date('2022-03-23'),shipped_datetime:Date('2022-04-24'),total_amount:678.80})
+{ acknowledged: true, insertedId: 5 }
+rajkumar> db.Student.find().pretty()
+[
+  {
+    _id: ObjectId("657463b3aec33861451a8fff"),
+    name: 'raj',
+    age: 17,
+    score: 9.2
+  },
+  {
+    _id: ObjectId("657463b3aec33861451a9000"),
+    name: 'sri',
+    age: 17,
+    score: 9.3
+  },
+  {
+    _id: ObjectId("657463b3aec33861451a9001"),
+    name: 'jagan',
+    age: 17,
+    score: 8.8
+  },
+  {
+    _id: ObjectId("657463b3aec33861451a9002"),
+    name: 'javitha',
+    age: 17,
+    score: 8
+  },
+  {
+    _id: ObjectId("657463b3aec33861451a9003"),
+    name: 'kayal',
+    age: 17,
+    score: 8.9
+  }
+]
+rajkumar> db.Customer.find().pretty()
+[
+  {
+    _id: 1,
+    first_name: 'raj',
+    last_name: 'kumar',
+    dob: -1985,
+    address: 'Krishangir',
+    mobile: 9876543209
+  },
+  {
+    _id: 2,
+    first_name: 'jacki',
+    last_name: 'chan',
+    dob: -1982,
+    address: 'chaina',
+    mobile: 9876543210
+  },
+  {
+    _id: 3,
+    first_name: 'chang',
+    last_name: 'xiao',
+    dob: -1983,
+    address: 'Krishangir',
+    mobile: 9876543209
+  },
+  {
+    _id: 4,
+    first_name: 'chen',
+    last_name: 'chen',
+    dob: -1983,
+    address: 'chaina',
+    mobile: 9876543210
+  },
+  {
+    _id: 5,
+    first_name: 'chang',
+    last_name: 'ling',
+    dob: -1985,
+    address: 'Krishangiri',
+    mobile: 9876543200
+  },
+  {
+    _id: 6,
+    first_name: 'chen',
+    last_name: 'leo',
+    dob: -1984,
+    address: 'china',
+    mobile: 9876543210
+  }
+]
+rajkumar> db.order_det.find().pretty()
+[
+  {
+    _id: 1,
+    cid: 1001,
+    order_datetime: 'Sat Dec 09 2023 18:41:01 GMT+0530 (India Standard Time)',
+    shipped_datetime: 'Sat Dec 09 2023 18:41:01 GMT+0530 (India Standard Time)',
+    total_amount: 78.8
+  },
+  {
+    _id: 2,
+    cid: 1002,
+    order_datetime: 'Sat Dec 09 2023 18:44:30 GMT+0530 (India Standard Time)',
+    shipped_datetime: 'Sat Dec 09 2023 18:44:30 GMT+0530 (India Standard Time)',
+    total_amount: 578
+  },
+  {
+    _id: 3,
+    cid: 1003,
+    order_datetime: 'Sat Dec 09 2023 18:44:30 GMT+0530 (India Standard Time)',
+    shipped_datetime: 'Sat Dec 09 2023 18:44:30 GMT+0530 (India Standard Time)',
+    total_amount: 200.8
+  },
+  {
+    _id: 4,
+    cid: 1004,
+    order_datetime: 'Sat Dec 09 2023 18:44:30 GMT+0530 (India Standard Time)',
+    shipped_datetime: 'Sat Dec 09 2023 18:44:30 GMT+0530 (India Standard Time)',
+    total_amount: 178.8
+  },
+  {
+    _id: 5,
+    cid: 1005,
+    order_datetime: 'Sat Dec 09 2023 18:45:05 GMT+0530 (India Standard Time)',
+    shipped_datetime: 'Sat Dec 09 2023 18:45:05 GMT+0530 (India Standard Time)',
+    total_amount: 678.8
+  }
+]
+rajkumar> use Empolyee
+switched to db Empolyee
+Empolyee> db.createCollection('emp_det')
+{ ok: 1 }
+Empolyee> db.emp_det>insertMany([{_id:1,ename:'sagar',role:'fullstack',salary:20000},{_id:2,ename:'natraj',role:'fullstack',salary:20000},{_id:3,ename:'mega',role:'fullstack',salary:20000},{_id:4,ename:'leka',role:'fullstack',salary:20000}])
+ReferenceError: insertMany is not defined
+Empolyee> db.emp_det.insertMany([{_id:1,ename:'sagar',role:'fullstack',salary:20000},{_id:2,ename:'natraj',role:'fullstack',salary:20000},{_id:3,ename:'mega',role:'fullstack',salary:20000},{_id:4,ename:'leka',role:'fullstack',salary:20000}])
+{ acknowledged: true, insertedIds: { '0': 1, '1': 2, '2': 3, '3': 4 } }
+Empolyee> db.collection.drop('emp_det')
+true
+Empolyee> db.drop()
+TypeError: db.drop is not a function
+Empolyee> db.dropDatabase()
+{ ok: 1, dropped: 'Empolyee' }
+Empolyee> show dbs
+admin      40.00 KiB
+config     96.00 KiB
+local      72.00 KiB
+mustore    40.00 KiB
+mystore    40.00 KiB
+rajkumar  184.00 KiB
+test       16.00 KiB
+Empolyee>

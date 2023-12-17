@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: grid;
+            grid-template-columns: 150px 150px 150px ;
+            grid-template-rows: 150px 150px 150px;
+        }
+        .container div{
+            width: 150px;
+            height: 150px;
+            animation-duration: 4.2s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-delay: 1s;
+            animation-direction: alternate;
+            
+        }
+        
+        .img1{
+            background-image: url('../images/img1.jpg');
+            animation-name: img1;
+        }
+        .img2{
+            background-image: url('../images/img2.jpg');
+            animation-name: img2;
+        }
+        .img3{
+            background-image: url('../images/img3.jpg');
+            animation-name: img3;
+        }
+        .img4{
+            background-image: url('../images/img4.jpg');
+            animation-name: img4;
+        }
+        .img5{
+            background-image: url('../images/img5.jpg');
+            animation-name: img5;
+        }
+        .img6{
+            background-image: url('../images/img6.jpg');
+            animation-name: img6;
+        }
+
+        @keyframes img1 {
+            0%{
+                transform: translate(0,0);
+            }
+            50%{
+                transform: translate(150px,75px);
+                animation-delay: 3s;
+            }
+            100%{
+                transform: translate(300px,150px);
+            }
+        }
+        @keyframes img2 {
+            0%{
+                transform: translate(0,0);
+            }
+            50%{
+                transform: translate(0,75px);
+                animation-delay: 1s;
+            }
+            100%{
+                transform: translate(0px,150px);
+            }
+        }
+        @keyframes img3 {
+            0%{
+                transform: translate(0,0);
+            }
+            50%{
+                transform: translate(-150px,75px);
+                animation-delay: 1s;
+            }
+            100%{
+                transform: translate(-300px,150px);
+            }
+        }
+        @keyframes img4 {
+            0%{
+                transform: translate(0,0);
+            }
+            50%{
+                transform: translate(150px,-75px);
+                animation-delay: 1s;
+            }
+            100%{
+                transform: translate(300px,-150px);
+            }
+        }
+        @keyframes img5 {
+            0%{
+                transform: translate(0,0);
+            }
+            50%{
+                transform: translate(0px,-75px);
+                animation-delay: 1s;
+            }
+            100%{
+                transform: translate(0px,-150px);
+            }
+        }
+        @keyframes img6 {
+            0%{
+                transform: translate(0,0);
+            }
+            50%{
+                transform: translate(-150px,-75px);
+                animation-delay: 1s;
+            }
+            100%{
+                transform: translate(-300px,-150px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="img1"></div>
+        <div class="img2"></div>
+        <div class="img3"></div>
+        <div class="img4"></div>
+        <div class="img5"></div>
+        <div class="img6"></div>
+        <div class="img7"></div>
+        <div class="img8"></div>
+    </div>
+</body>
+</html>
